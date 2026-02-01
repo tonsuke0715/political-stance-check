@@ -1,1 +1,103 @@
-
+{
+  "parties": [
+    {
+      "partyId": "reiwa",
+      "name": "れいわ新選組",
+      "short": "れいわ",
+      "website": "https://reiwa-shinsengumi.com",
+      "lastUpdated": "2026-02-02",
+      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "sources": {}
+    },
+    {
+      "partyId": "dpf",
+      "name": "国民民主党",
+      "short": "民主党",
+      "website": "https://new-kokumin.jp/",
+      "lastUpdated": "2026-02-02",
+      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "sources": {}
+    },
+    {
+      "partyId": "hoshuto",
+      "name": "日本保守党",
+      "short": "保守党",
+      "website": "https://hoshuto.jp/",
+      "lastUpdated": "2026-02-02",
+      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "sources": {}
+    },
+    {
+      "partyId": "jcp",
+      "name": "日本共産党",
+      "short": "共産党",
+      "website": "https://www.jcp.or.jp/",
+      "lastUpdated": "2026-02-02",
+      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "sources": {}
+    },
+    {
+      "partyId": "craj",
+      "name": "中道改革連合",
+      "short": "中道",
+      "website": "https://craj.jp/",
+      "lastUpdated": "2026-02-02",
+      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "sources": {}
+    },
+    {
+      "partyId": "sdp",
+      "name": "社会民主党",
+      "short": "社民党",
+      "website": "https://sdp.or.jp/",
+      "lastUpdated": "2026-02-02",
+      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "sources": {}
+    },
+    {
+      "partyId": "team_mirai",
+      "name": "チームみらい",
+      "short": "みらい",
+      "website": "https://team-mir.ai/",
+      "lastUpdated": "2026-02-02",
+      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "sources": {}
+    },
+    {
+      "partyId": "ldp",
+      "name": "自由民主党",
+      "short": "自民党",
+      "website": "https://www.jimin.jp/",
+      "lastUpdated": "2026-02-02",
+      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "sources": {}
+    },
+    {
+      "partyId": "sanseito",
+      "name": "参政党",
+      "short": "参政",
+      "website": "https://sanseito.jp/",
+      "lastUpdated": "2026-02-02",
+      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "sources": {}
+    },
+    {
+      "partyId": "ishin",
+      "name": "日本維新の会",
+      "short": "維新",
+      "website": "https://o-ishin.jp",
+      "lastUpdated": "2026-02-02",
+      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "sources": {}
+    },
+    {
+      "partyId": "yukoku",
+      "name": "減税日本・ゆうこく連合",
+      "short": "ゆうこく連合",
+      "website": "https://yukoku.org/",
+      "lastUpdated": "2026-02-02",
+      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "sources": {}
+    }
+  ]
+}
