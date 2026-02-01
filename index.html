@@ -316,7 +316,7 @@ function computeAndShow(outEl) {
   const mt = el("table");
   const mthead = el("thead");
   const mtrh = el("tr");
-  ["順位","政党","一致度","データ充足","公式サイト"].forEach(h => { const th=el("th"); th.textContent=h; mtrh.appendChild(th);});
+  ["順位","政党","一致度","データ充足","根拠","公式サイト"].forEach(h => { const th=el("th"); th.textContent=h; mtrh.appendChild(th);});
   mthead.appendChild(mtrh); mt.appendChild(mthead);
   const mtb = el("tbody");
 
