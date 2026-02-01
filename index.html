@@ -1,0 +1,383 @@
+<!-- index.html -->
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>政治スタンス診断（4軸×政党一致度）</title>
+  <style>
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", sans-serif; margin: 24px; line-height: 1.6; }
+    .container { max-width: 920px; margin: 0 auto; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 16px; margin: 12px 0; }
+    h1 { font-size: 22px; margin: 0 0 12px; }
+    h2 { font-size: 18px; margin: 18px 0 8px; }
+    .muted { color: #555; font-size: 14px; }
+    .row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { border: 1px solid #222; background: #222; color: #fff; padding: 10px 14px; border-radius: 10px; cursor: pointer; }
+    .btn.secondary { background: #fff; color: #222; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .qtitle { font-weight: 700; }
+    .choices { display: grid; gap: 6px; margin-top: 8px; }
+    label { display: flex; gap: 8px; align-items: center; }
+    .pill { display:inline-block; padding: 2px 8px; border-radius: 999px; border: 1px solid #ccc; font-size: 12px; color:#333; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid #eee; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #fafafa; }
+    .warn { background: #fff7e6; border: 1px solid #ffd591; }
+    .ok { background: #f6ffed; border: 1px solid #b7eb8f; }
+    .small { font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>政治スタンス診断（4軸×政党一致度）</h1>
+
+    <div class="card warn">
+      <div class="small">
+        <strong>注意</strong>：この診断は「投票先を断定」しません。あなたの回答と各政党の公開情報にもとづく立場データの<strong>近さ</strong>を計算し、「比較候補」を示します。<br/>
+        また、選挙公報の扱いには公職選挙法上の注意があります。選挙管理委員会サイトでも、選挙公報の頒布やメール添付等が法令抵触しうる旨が注意喚起されています。<br/>
+        <span class="muted">（このサイトでは選挙公報PDFを配布せず、政党公式サイト等へのリンクと、こちらで作成した設問のみを使う設計にしています）</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="row">
+        <button id="btnLoad" class="btn">データ読み込み</button>
+        <button id="btnStart" class="btn" disabled>診断を始める</button>
+        <button id="btnReset" class="btn secondary" disabled>リセット</button>
+      </div>
+      <div id="status" class="muted" style="margin-top:10px;">まず「データ読み込み」を押してください。</div>
+    </div>
+
+    <div id="app"></div>
+
+    <div class="card">
+      <h2>透明性</h2>
+      <div class="small">
+        <strong>思想スタンス（16タイプ）</strong>：各設問の回答を -2〜+2 に数値化し、軸ごとに合計します。合計が正なら「M/T/A/G」、負なら「R/P/L/S」を返します。<br/>
+        <strong>政党一致度</strong>：各政党の立場（-2〜+2）との差を距離として計算し、一致度％に換算します。<br/>
+        <strong>欠損の扱い</strong>：「わからない」は計算から除外します。政党側データが未入力の設問も除外します。
+      </div>
+    </div>
+  </div>
+
+<script>
+const AXES = {
+  A: { name: "経済", letters: ["M","R"], desc: "市場・成長 ↔ 再分配・保護" },
+  B: { name: "社会文化", letters: ["T","P"], desc: "伝統・秩序 ↔ 進歩・権利拡張" },
+  C: { name: "統治", letters: ["A","L"], desc: "統制・決定力 ↔ 自由・分権" },
+  D: { name: "対外", letters: ["G","S"], desc: "国際協調 ↔ 主権・自立" },
+};
+const THRESHOLD_BALANCED = 2;
+
+const ANSWER_VALUES = [
+  { key: "strong_agree", label: "強く賛成", v:  2 },
+  { key: "agree",        label: "やや賛成", v:  1 },
+  { key: "neutral",      label: "どちらともいえない", v: 0 },
+  { key: "disagree",     label: "やや反対", v: -1 },
+  { key: "strong_disagree", label: "強く反対", v: -2 },
+  { key: "unknown",      label: "わからない", v: null },
+];
+
+let questions = null;
+let parties = null;
+
+const el = (tag, attrs={}, children=[]) => {
+  const node = document.createElement(tag);
+  Object.entries(attrs).forEach(([k,v]) => {
+    if (k === "class") node.className = v;
+    else if (k === "html") node.innerHTML = v;
+    else node.setAttribute(k, v);
+  });
+  children.forEach(c => node.appendChild(c));
+  return node;
+};
+
+function setStatus(msg) { document.getElementById("status").textContent = msg; }
+
+async function loadData() {
+  const q = await fetch("./data/questions.json", { cache: "no-store" }).then(r => r.json());
+  const p = await fetch("./data/parties.json", { cache: "no-store" }).then(r => r.json());
+  questions = q.questions;
+  parties = p.parties;
+}
+
+function render() {
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+
+  // importance
+  const importanceCard = el("div", { class: "card" });
+  importanceCard.appendChild(el("h2", { html: "重要度（重み付け）" }));
+  importanceCard.appendChild(el("div", { class: "muted", html: "各軸の優先度を選んでください（一致度計算に反映します）。" }));
+
+  const impRow = el("div", { class: "row", style: "margin-top:8px;" });
+  Object.keys(AXES).forEach(ax => {
+    const box = el("div", { class: "card", style: "flex:1; min-width:200px;" });
+    box.appendChild(el("div", { class:"qtitle", html: `${AXES[ax].name} <span class="muted">(${AXES[ax].desc})</span>` }));
+    const sel = el("select", { id: `imp_${ax}`, style: "margin-top:6px; padding:8px; border-radius:10px; border:1px solid #ddd; width:100%;" });
+    [["high","高（重み1.5）"],["mid","中（重み1.0）"],["low","低（重み0.5）"]].forEach(([k,label]) => {
+      const opt = el("option", { value: k }); opt.textContent = label; sel.appendChild(opt);
+    });
+    box.appendChild(sel);
+    impRow.appendChild(box);
+  });
+  importanceCard.appendChild(impRow);
+  app.appendChild(importanceCard);
+
+  // questions
+  const qCard = el("div", { class: "card" });
+  qCard.appendChild(el("h2", { html: `設問（全${questions.length}問）` }));
+  questions.forEach((q, idx) => {
+    const qc = el("div", { class: "card" });
+    qc.appendChild(el("div", { class:"qtitle", html: `${idx+1}. ${q.text} <span class="pill">${q.axis}</span>` }));
+    const choices = el("div", { class: "choices" });
+    ANSWER_VALUES.forEach(av => {
+      const id = `q_${q.id}_${av.key}`;
+      const input = el("input", { type:"radio", name:`q_${q.id}`, id, value: av.v === null ? "" : String(av.v) });
+      const lab = el("label", { for: id });
+      lab.appendChild(input);
+      lab.appendChild(document.createTextNode(av.label));
+      choices.appendChild(lab);
+    });
+    qc.appendChild(choices);
+    qCard.appendChild(qc);
+  });
+  app.appendChild(qCard);
+
+  // action
+  const action = el("div", { class: "card" });
+  const btn = el("button", { class:"btn", id:"btnCalc" }); btn.textContent = "結果を見る";
+  const out = el("div", { id:"out", style:"margin-top:12px;" });
+  btn.onclick = () => computeAndShow(out);
+  action.appendChild(btn);
+  action.appendChild(out);
+  app.appendChild(action);
+}
+
+function getImportanceWeights() {
+  const map = { high: 1.5, mid: 1.0, low: 0.5 };
+  const w = {};
+  Object.keys(AXES).forEach(ax => {
+    const v = document.getElementById(`imp_${ax}`).value;
+    w[ax] = map[v] ?? 1.0;
+  });
+  return w;
+}
+
+function readUserAnswers() {
+  const ans = {};
+  for (const q of questions) {
+    const picked = document.querySelector(`input[name="q_${q.id}"]:checked`);
+    if (!picked) { ans[q.id] = null; continue; }
+    const val = picked.value === "" ? null : Number(picked.value);
+    ans[q.id] = Number.isFinite(val) ? val : null;
+  }
+  return ans;
+}
+
+function computeType(userAns) {
+  const axisScore = { A:0, B:0, C:0, D:0 };
+  const axisN = { A:0, B:0, C:0, D:0 };
+
+  for (const q of questions) {
+    const u = userAns[q.id];
+    if (u === null) continue;
+    // agreeTo: AXES[axis].letters[0] or [1]
+    const [pos, neg] = AXES[q.axis].letters;
+    const contrib = (q.agreeTo === pos) ? u : -u;
+    axisScore[q.axis] += contrib;
+    axisN[q.axis] += 1;
+  }
+
+  const axisResult = {};
+  let type = "";
+  const notes = [];
+
+  for (const ax of Object.keys(AXES)) {
+    const [pos, neg] = AXES[ax].letters;
+    const s = axisScore[ax];
+    const letter = (s >= 0) ? pos : neg;
+    type += letter;
+
+    const balanced = Math.abs(s) <= THRESHOLD_BALANCED;
+    axisResult[ax] = { score: s, n: axisN[ax], letter, balanced };
+    if (balanced) notes.push(`${AXES[ax].name}は中間（揺れ）です`);
+  }
+
+  return { type, axisResult, notes };
+}
+
+function computePartyMatches(userAns, weights) {
+  const results = [];
+
+  for (const party of parties) {
+    let num = 0;
+    let den = 0;
+    let used = 0;
+    const diffs = []; // for explanations
+
+    for (const q of questions) {
+      const u = userAns[q.id];
+      const p = party.positions?.[q.id];
+      if (u === null) continue;
+      if (p === null || p === undefined) continue;
+
+      const w = weights[q.axis] ?? 1.0;
+      const d = Math.abs(u - p); // 0..4
+      const s = 4 - d; // 0..4
+      num += w * s;
+      den += w * 4;
+      used += 1;
+
+      diffs.push({ qid: q.id, axis: q.axis, d, u, p, text: q.text, source: party.sources?.[q.id] ?? null });
+    }
+
+    // 安定性のため、一定数未満はランキング対象外にする
+    const minUsed = Math.ceil(questions.length * 0.6); // 60% 以上データがある政党のみランキング
+    const eligible = used >= minUsed;
+
+    const scorePct = (den > 0) ? (100 * num / den) : null;
+    results.push({ party, scorePct, used, eligible, diffs });
+  }
+
+  // eligible を優先し、点数降順
+  results.sort((a,b) => {
+    const ea = a.eligible ? 1 : 0;
+    const eb = b.eligible ? 1 : 0;
+    if (ea !== eb) return eb - ea;
+    const sa = (a.scorePct ?? -1);
+    const sb = (b.scorePct ?? -1);
+    return sb - sa;
+  });
+
+  return results;
+}
+
+function computeAndShow(outEl) {
+  outEl.innerHTML = "";
+  const weights = getImportanceWeights();
+  const userAns = readUserAnswers();
+
+  // 回答チェック：未回答が多すぎる場合は警告
+  const answered = Object.values(userAns).filter(v => v !== null).length;
+  if (answered < Math.ceil(questions.length * 0.7)) {
+    outEl.appendChild(el("div", { class:"card warn", html: `未回答が多いため、結果の安定性が下がります（回答済み ${answered}/${questions.length}）。` }));
+  }
+
+  const { type, axisResult, notes } = computeType(userAns);
+
+  // Type card
+  const typeCard = el("div", { class:"card ok" });
+  typeCard.appendChild(el("h2", { html: "思想スタンス（16タイプ）" }));
+  typeCard.appendChild(el("div", { html: `<strong>あなたのタイプ：</strong> ${type}` }));
+  const t = el("table");
+  const thead = el("thead");
+  const hr = el("tr");
+  ["軸","意味","スコア","判定","注記"].forEach(h => { const th = el("th"); th.textContent = h; hr.appendChild(th); });
+  thead.appendChild(hr); t.appendChild(thead);
+
+  const tb = el("tbody");
+  Object.keys(AXES).forEach(ax => {
+    const r = axisResult[ax];
+    const tr = el("tr");
+    const [pos, neg] = AXES[ax].letters;
+    const label = `${pos} ↔ ${neg}`;
+    tr.appendChild(el("td", { html: `${AXES[ax].name} <span class="pill">${ax}</span>` }));
+    tr.appendChild(el("td", { html: `${label}<br/><span class="muted">${AXES[ax].desc}</span>` }));
+    tr.appendChild(el("td", { html: String(r.score) }));
+    tr.appendChild(el("td", { html: `<strong>${r.letter}</strong>` }));
+    tr.appendChild(el("td", { html: r.balanced ? "中間（揺れ）" : "" }));
+    tb.appendChild(tr);
+  });
+  t.appendChild(tb);
+  typeCard.appendChild(t);
+  if (notes.length) typeCard.appendChild(el("div", { class:"muted", html: "注記：" + notes.join("／") }));
+  outEl.appendChild(typeCard);
+
+  // Party matches
+  const matches = computePartyMatches(userAns, weights);
+
+  const matchCard = el("div", { class:"card" });
+  matchCard.appendChild(el("h2", { html: "政党との一致度（比較候補）" }));
+  matchCard.appendChild(el("div", { class:"muted", html: "一致度は、あなたの回答と各政党の立場データ（-2〜+2）との差を距離として計算した値です。データが十分に整備されていない政党はランキング対象外になります。" }));
+
+  const mt = el("table");
+  const mthead = el("thead");
+  const mtrh = el("tr");
+  ["順位","政党","一致度","データ充足","公式サイト"].forEach(h => { const th=el("th"); th.textContent=h; mtrh.appendChild(th);});
+  mthead.appendChild(mtrh); mt.appendChild(mthead);
+  const mtb = el("tbody");
+
+  let rank = 0;
+  for (const r of matches) {
+    const tr = el("tr");
+    const partyName = r.party.name;
+    const site = r.party.website ?? "";
+    const eligibleText = r.eligible ? `OK（${r.used}/${questions.length}）` : `未整備（${r.used}/${questions.length}）`;
+    if (r.eligible) rank += 1;
+
+    tr.appendChild(el("td", { html: r.eligible ? String(rank) : "-" }));
+    tr.appendChild(el("td", { html: partyName }));
+    tr.appendChild(el("td", { html: (r.scorePct === null) ? "-" : `${r.scorePct.toFixed(1)}%` }));
+    tr.appendChild(el("td", { html: eligibleText }));
+    tr.appendChild(el("td", { html: site ? `<a href="${site}" target="_blank" rel="noopener">公式</a>` : "-" }));
+    mtb.appendChild(tr);
+  }
+  mt.appendChild(mtb);
+  matchCard.appendChild(mt);
+
+  // Explain top eligible party
+  const top = matches.find(x => x.eligible);
+  if (top) {
+    const explain = el("div", { class:"card", style:"margin-top:12px;" });
+    explain.appendChild(el("div", { class:"qtitle", html: `一致度が最も高い政党：${top.party.name}（${top.scorePct.toFixed(1)}%）` }));
+    // strongest agreements/disagreements
+    const sorted = [...top.diffs].sort((a,b) => b.d - a.d); // large diff first
+    const worst = sorted.slice(0, 3);
+    const best = [...top.diffs].sort((a,b) => a.d - b.d).slice(0, 3);
+
+    const mkList = (items) => {
+      const ul = el("ul");
+      items.forEach(it => {
+        const li = el("li");
+        const src = it.source?.url ? `（根拠：<a href="${it.source.url}" target="_blank" rel="noopener">リンク</a>）` : "";
+        li.innerHTML = `${it.text} <span class="muted">[差 ${it.d}]</span> ${src}`;
+        ul.appendChild(li);
+      });
+      return ul;
+    };
+
+    explain.appendChild(el("div", { html: "<strong>一致が大きい設問（差が小さい）</strong>" }));
+    explain.appendChild(mkList(best));
+    explain.appendChild(el("div", { style:"margin-top:8px;", html: "<strong>不一致が大きい設問（差が大きい）</strong>" }));
+    explain.appendChild(mkList(worst));
+
+    matchCard.appendChild(explain);
+  }
+
+  outEl.appendChild(matchCard);
+}
+
+document.getElementById("btnLoad").onclick = async () => {
+  try {
+    setStatus("読み込み中...");
+    await loadData();
+    setStatus(`読み込み完了：設問 ${questions.length}問／政党 ${parties.length}件`);
+    document.getElementById("btnStart").disabled = false;
+    document.getElementById("btnReset").disabled = false;
+  } catch (e) {
+    setStatus("読み込みに失敗しました。data/questions.json と data/parties.json のパスとJSON形式を確認してください。");
+    console.error(e);
+  }
+};
+
+document.getElementById("btnStart").onclick = () => {
+  render();
+  document.getElementById("btnStart").disabled = true;
+};
+
+document.getElementById("btnReset").onclick = () => location.reload();
+</script>
+</body>
+</html>
