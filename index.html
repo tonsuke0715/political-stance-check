@@ -256,6 +256,17 @@ function computePartyMatches(userAns, weights) {
 
 function computeAndShow(outEl) {
   outEl.innerHTML = "";
+    // 結果の読み方（軸の説明）
+  const guide = el("div", { class:"card", html: `
+    <div class="qtitle">結果の読み方</div>
+    <div class="small">
+      <strong>思想スタンス（16タイプ）</strong>は、各軸の合計が正なら「${AXES.A.letters[0]}${AXES.B.letters[0]}${AXES.C.letters[0]}${AXES.D.letters[0]}」、負なら「${AXES.A.letters[1]}${AXES.B.letters[1]}${AXES.C.letters[1]}${AXES.D.letters[1]}」になります。<br/>
+      <strong>軸の意味</strong>：A=${AXES.A.desc} ／ B=${AXES.B.desc} ／ C=${AXES.C.desc} ／ D=${AXES.D.desc}<br/>
+      <strong>一致度</strong>は「近さ」であり、投票先を断定しません。データが少ない政党（未整備）は参考度が下がります。
+    </div>
+  `});
+  outEl.appendChild(guide);
+
   const weights = getImportanceWeights();
   const userAns = readUserAnswers();
 
