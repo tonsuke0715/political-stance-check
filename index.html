@@ -332,6 +332,8 @@ function computeAndShow(outEl) {
     tr.appendChild(el("td", { html: partyName }));
     tr.appendChild(el("td", { html: (r.scorePct === null) ? "-" : `${r.scorePct.toFixed(1)}%` }));
     tr.appendChild(el("td", { html: eligibleText }));
+    const srcCount = Object.keys(r.party.sources ?? {}).length;
+    tr.appendChild(el("td", { html: `${srcCount}件` }));
     tr.appendChild(el("td", { html: site ? `<a href="${site}" target="_blank" rel="noopener">公式</a>` : "-" }));
     mtb.appendChild(tr);
   }
