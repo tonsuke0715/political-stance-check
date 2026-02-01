@@ -7,7 +7,32 @@
       "website": "https://reiwa-shinsengumi.com",
       "lastUpdated": "2026-02-02",
       "positions": { "A1": -2, "A2": 1, "A3": 2, "A4": 2, "A5": 2, "B1": -1, "B2": 2, "B3": 2, "B4": 2, "B5": 0, "C1": -2, "C2": 2, "C3": -2, "C4": 2, "C5": -1, "D1": -2, "D2": 1, "D3": 1, "D4": -2, "D5": 1 },
-      "sources": {}
+      "sources": {
+        "A4": {
+      "url": "https://reiwa-shinsengumi.com/policy/",
+      "note": "1-4 労働政策に「最低賃金を全国一律1500円に引き上げる」と明記。",
+      "checked": "2026-02-02"
+    },
+    "A5": {
+      "url": "https://reiwa-shinsengumi.com/policy/",
+      "note": "1-1 財政・金融政策で「プライマリーバランス黒字化目標を破棄」「大胆に財政出動」と記載。",
+      "checked": "2026-02-02"
+    },
+    "A3": {
+      "url": "https://reiwa-shinsengumi.com/policy/",
+      "note": "1-2 税制で「消費税を廃止し、家計を支援」と記載（家計側を重視する方向性の根拠として利用）。",
+      "checked": "2026-02-02"
+    },
+    "C2": {
+      "url": "https://reiwa-shinsengumi.com/policy/",
+      "note": "7-4 情報公開・公文書管理で、公文書範囲拡大・保存区分見直し・改ざん罰則など、透明性強化を列挙。",
+      "checked": "2026-02-02"
+    },
+    "D4": {
+      "url": "https://reiwa-shinsengumi.com/policy/",
+      "note": "8-2 外交安全保障で「軍事費倍増計画を中止」「防衛財源確保法は廃止」など、軍拡抑制の方針が明確。",
+      "checked": "2026-02-02"
+      }
     },
     {
       "partyId": "dpf",
