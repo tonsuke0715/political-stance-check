@@ -96,8 +96,8 @@ const el = (tag, attrs={}, children=[]) => {
 function setStatus(msg) { document.getElementById("status").textContent = msg; }
 
 async function loadData() {
-  const q = await fetch("./data/questions.json", { cache: "no-store" }).then(r => r.json());
-  const p = await fetch("./data/parties.json", { cache: "no-store" }).then(r => r.json());
+  const q = await fetch("./questions.json", { cache: "no-store" }).then(r => r.json());
+  const p = await fetch("./parties.json", { cache: "no-store" }).then(r => r.json());
   questions = q.questions;
   parties = p.parties;
 }
