@@ -41,7 +41,7 @@
       "short": "民主党",
       "website": "https://new-kokumin.jp/",
       "lastUpdated": "2026-02-02",
-      "positions": { "A1": null, "A2": null, "A3": null, "A4": null, "A5": null, "B1": null, "B2": null, "B3": null, "B4": null, "B5": null, "C1": null, "C2": null, "C3": null, "C4": null, "C5": null, "D1": null, "D2": null, "D3": null, "D4": null, "D5": null },
+      "positions": { "A1": 1, "A2": -2, "A3": 1, "A4": 0, "A5": 2, "B1": 0, "B2": 1, "B3": 2, "B4": 1, "B5": 1, "C1": 1, "C2": 2, "C3": 0, "C4": 0, "C5": 2, "D1": -1, "D2": 2, "D3": 1, "D4": 2, "D5": 2 },
       "sources": {}
     },
     {
