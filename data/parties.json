@@ -42,7 +42,112 @@
       "website": "https://new-kokumin.jp/",
       "lastUpdated": "2026-02-02",
       "positions": { "A1": 1, "A2": -2, "A3": 1, "A4": 0, "A5": 2, "B1": 0, "B2": 1, "B3": 2, "B4": 1, "B5": 1, "C1": 1, "C2": 2, "C3": 0, "C4": 0, "C5": 2, "D1": -1, "D2": 2, "D3": 1, "D4": 2, "D5": 2 },
-      "sources": {}
+      "sources": {
+  "A1": {
+    "url": "https://new-kokumin.jp/policies/specifics4/",
+    "note": "政治改革等の説明内で「One in, Two outで規制改革」を掲げ、規制見直しを政策手段として明示しているため、競争促進寄り（+1）の根拠とした。",
+    "checked": "2026-02-02"
+  },
+  "A2": {
+    "url": "https://election2026.new-kokumin.jp/policies/top-policies/policy2/",
+    "note": "「増税や社会保険料アップは行いません」として負担増に否定的な立場を明示しているため、増税容認設問には反対（-2）の根拠とした。",
+    "checked": "2026-02-02"
+  },
+  "A3": {
+    "url": "https://election2026.new-kokumin.jp/policies/top-policies/policy2/",
+    "note": "所得税減税や生活コスト低下策（例: ガソリン税暫定税率廃止、消費税率引下げ等）を列挙し、家計の可処分所得を増やす方向を強調しているため、家計優先（+1）の根拠とした。",
+    "checked": "2026-02-02"
+  },
+  "A4": {
+    "url": "https://election2026.new-kokumin.jp/policies/top-policies/policy2/",
+    "note": "賃上げや手取り増の方向性は示されているが、最低賃金の引上げを政策として明記している箇所は今回確認できなかったため、中立（0）とした（要追加確認）。",
+    "checked": "2026-02-02"
+  },
+  "A5": {
+    "url": "https://election2026.new-kokumin.jp/policies/top-policies/policy2/",
+    "note": "積極財政を掲げる政策項目があり、短期の景気・所得対策を優先する方向を示しているため、景気対策優先（+2）の根拠とした。",
+    "checked": "2026-02-02"
+  },
+
+  "B1": {
+    "url": "https://election2026.new-kokumin.jp/policies/",
+    "note": "社会制度変更の進め方（慎重か迅速か）を一般原則として明記する箇所は今回確認できなかったため、中立（0）扱い（要追加確認）。",
+    "checked": "2026-02-02"
+  },
+  "B2": {
+    "url": "https://new-kokumin.jp/policies/specifics3/",
+    "note": "政策項目で「性の多様性を尊重」等を掲げ、包摂・人権に配慮する方向を示しているため、少数者の権利保障を相対的に優先（+1）の根拠とした。",
+    "checked": "2026-02-02"
+  },
+  "B3": {
+    "url": "https://new-kokumin.jp/policies/specifics3/",
+    "note": "女性の多様な生き方や性の多様性を前提とする政策方向を示しているため、家族・共同体の形の多様化を前提に制度整備（+2）の間接根拠とした（要追加確認）。",
+    "checked": "2026-02-02"
+  },
+  "B4": {
+    "url": "https://new-kokumin.jp/policies/specifics3/",
+    "note": "性の多様性の尊重を掲げるなど、包摂に配慮する政策方向が確認できるため、教育でも多様性・包摂を重視（+1）の根拠とした（要追加確認）。",
+    "checked": "2026-02-02"
+  },
+  "B5": {
+    "url": "https://election2026.new-kokumin.jp/policies/",
+    "note": "表現の自由の制限要否に直結する明確な記述は今回確認できなかったため、現状スコア（+1）の一次根拠が不足（要追加確認）。",
+    "checked": "2026-02-02"
+  },
+
+  "C1": {
+    "url": "https://election2026.new-kokumin.jp/policies/top-policies/policy4/",
+    "note": "「スパイ防止を含むインテリジェンス態勢整備」等を掲げ、治安・情報体制の強化を明示しているため、監視・規制強化に一定程度肯定（+1）の根拠とした。",
+    "checked": "2026-02-02"
+  },
+  "C2": {
+    "url": "https://new-kokumin.jp/policies/specifics4/",
+    "note": "政治改革の柱として「政治資金規正」「公文書管理」等を挙げ、透明性・ガバナンス強化を明示しているため、情報公開強化（+2）の根拠とした。",
+    "checked": "2026-02-02"
+  },
+  "C3": {
+    "url": "https://election2026.new-kokumin.jp/policies/",
+    "note": "国主導と地方主導の優先を一般原則として明記する箇所は今回確認できなかったため、中立（0）扱い（要追加確認）。",
+    "checked": "2026-02-02"
+  },
+  "C4": {
+    "url": "https://election2026.new-kokumin.jp/policies/",
+    "note": "緊急時の権限拡大に対する歯止めを一般原則として明記する箇所は今回確認できなかったため、中立（0）扱い（要追加確認）。",
+    "checked": "2026-02-02"
+  },
+  "C5": {
+    "url": "https://election2026.new-kokumin.jp/policies/top-policies/policy4/",
+    "note": "「命の口座」等、給付を迅速化する仕組みを掲げ、行政のデジタル活用を強く推進しているため、デジタル化を強力に進める（+2）の根拠とした。",
+    "checked": "2026-02-02"
+  },
+
+  "D1": {
+    "url": "https://election2026.new-kokumin.jp/policies/top-policies/policy4/",
+    "note": "自国の安全保障や供給網強化、外国依存の低減を強調している一方、国際合意より国内判断を優先する一般原則としての明記は今回確認できず、現状スコア（-1）の一次根拠は要追加確認。",
+    "checked": "2026-02-02"
+  },
+  "D2": {
+    "url": "https://election2026.new-kokumin.jp/policies/top-policies/policy4/",
+    "note": "同盟・国際協調そのものを柱として明記する箇所は今回確認できなかったため、国際協調（+2）の一次根拠が不足（要追加確認）。",
+    "checked": "2026-02-02"
+  },
+  "D3": {
+    "url": "https://election2026.new-kokumin.jp/policies/",
+    "note": "人口減対策としての外国人受け入れ拡大に直結する明確な記述は今回確認できなかったため、現状スコア（+1）の一次根拠が不足（要追加確認）。",
+    "checked": "2026-02-02"
+  },
+  "D4": {
+    "url": "https://election2026.new-kokumin.jp/policies/top-policies/policy4/",
+    "note": "安全保障強化や情報収集体制強化を列挙しているが、防衛費そのものの増額を明記する箇所は今回確認できなかったため、増額必要（+2）の一次根拠が不足（要追加確認）。",
+    "checked": "2026-02-02"
+  },
+  "D5": {
+    "url": "https://election2026.new-kokumin.jp/policies/top-policies/policy4/",
+    "note": "供給網の強靭化や「重要物資の国内調達拡充」を掲げ、経済安全保障の観点から国内回帰を進める方向を明示しているため（+2）の根拠とした。",
+    "checked": "2026-02-02"
+  }
+}
+
     },
     {
       "partyId": "hoshuto",
